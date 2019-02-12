@@ -7,6 +7,7 @@ use App\Models\User;
 use Auth;
 use Mail;
 
+
 class UsersController extends Controller
 {
 
@@ -91,17 +92,15 @@ class UsersController extends Controller
     	return back();
     }
 
-    public function sendEmailConfirmationTo($user)
+    protected function sendEmailConfirmationTo($user)
     {
         $view = 'emails.confirm';
         $data = compact('user');
-        $from = '123@qq.com';
-        $name = 'zmg';
-        $to   = $user->email;
+        $to = $user->email;
         $subject = "感谢注册 weibo 应用！请确认你的邮箱。";
 
-        Mail::send($view, $data, function($message) use ($from, $name, $to, $subject) {
-            $message->from($from, $name)->to($to)->subject($subject);
+        Mail::send($view, $data, function ($message) use ($to, $subject) {
+            $message->to($to)->subject($subject);
         });
     }
 
